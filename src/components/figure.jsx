@@ -1,8 +1,10 @@
-function Figure() {
+function Figure(incident) {
     return (
         <figure>
-            <img src={props.src} alt={props.alt} />
-            <figcaption>{props.caption}</figcaption>
+            <p>Image of incident</p>
+            <figcaption>Info for the incident</figcaption>
         </figure>
     );
 }
+
+export default Figure;
