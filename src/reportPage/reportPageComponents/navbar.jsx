@@ -1,10 +1,11 @@
 import "../reportPage.css";
+import { Link } from "react-router-dom";
 
 function Navbar(){
     return(
-    <div className="navBar">
-        <h1>Navbar</h1>
-    </div>
+    <nav className="navBar">
+        <Link to="/">GO TO MAIN PAGE</Link>
+    </nav>
     );
 }
 

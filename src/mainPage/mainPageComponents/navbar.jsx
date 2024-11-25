@@ -1,9 +1,10 @@
 import "../mainPage.css";
+import { Link } from "react-router-dom";
 
 function Navbar(){
     return(
     <div className="navBar">
-        <h1>Navbar</h1>
+        <Link to="/report">REPORT PAGE</Link>
     </div>
     );
 }
