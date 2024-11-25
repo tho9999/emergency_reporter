@@ -1,0 +1,29 @@
+.incident-table {
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .incident-table th,
+  .incident-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+  }
+  
+  .incident-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .more-info-btn {
+    color: grey;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
