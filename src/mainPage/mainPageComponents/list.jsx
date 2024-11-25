@@ -1,54 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import "../mainPage.css";
 
-// Sample incident data (replace with actual incident data or class)
-const incidents = [
-  {
-    location: "Metrotown",
-    type: "shooting",
-    timeReported: "2023-11-01 (5:30pm)",
-    status: "RESOLVED",
-  },
-  {
-    location: "SFU Burnaby",
-    type: "medical",
-    timeReported: "2023-10-30 (1:34pm)",
-    status: "OPEN",
-  },
-  {
-    location: "SFU Surrey",
-    type: "elevator",
-    timeReported: "2023-10-22 (5:30am)",
-    status: "OPEN",
-  },
-];
-
 function List() {
+  const [incidents, setIncidents] = useState([
+    {
+      location: "Metrotown",
+      type: "shooting",
+      timeReported: "2023-11-01T17:30",
+      status: "RESOLVED",
+    },
+    {
+      location: "SFU Burnaby",
+      type: "medical",
+      timeReported: "2023-10-30T13:34",
+      status: "OPEN",
+    },
+    {
+      location: "SFU Surrey",
+      type: "elevator",
+      timeReported: "2023-10-22T05:30",
+      status: "OPEN",
+    },
+  ]);
+
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
+
+  // Sorting function
+  function sortIncidents(key) {
+    const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
+    const sorted = [...incidents].sort((a, b) => {
+      if (key === "timeReported") {
+        return direction === "asc"
+          ? new Date(a[key]) - new Date(b[key])
+          : new Date(b[key]) - new Date(a[key]);
+      }
+      return direction === "asc"
+        ? a[key].localeCompare(b[key])
+        : b[key].localeCompare(a[key]);
+    });
+    setSortConfig({ key, direction });
+    setIncidents(sorted);
+  }
+
+  // Helper to show the arrow indicator
+  function getSortIndicator(key) {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "asc" ? " ▲" : " ▼";
+    }
+    return "";
+  }
+
   return (
-    <table className="incident-table">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Type</th>
-          <th>Time Reported</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {incidents.map((incident, index) => (
-          <tr key={index}>
-            <td>{incident.location}</td>
-            <td>{incident.type}</td>
-            <td>{incident.timeReported}</td>
-            <td>{incident.status}</td>
-            <td>
+    <div>
+      <h1>Incident Report</h1>
+
+      {/* Incident List Table */}
+      <table className="incident-table">
+        <thead>
+          <tr>
+            <th onClick={() => sortIncidents("location")}>
+              Location{getSortIndicator("location")}
+            </th>
+            <th onClick={() => sortIncidents("type")}>
+              Type{getSortIndicator("type")}
+            </th>
+            <th onClick={() => sortIncidents("timeReported")}>
+              Time Reported{getSortIndicator("timeReported")}
+            </th>
+            <th onClick={() => sortIncidents("status")}>
+              Status{getSortIndicator("status")}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {incidents.map((incident, index) => (
+            <tr key={index}>
+              <td>{incident.location}</td>
+              <td>{incident.type}</td>
+              <td>{incident.timeReported}</td>
+              <td>{incident.status}</td>
+              <td>
               <button className="more-info-btn">MORE INFO</button>
             </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
