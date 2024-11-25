@@ -1,4 +1,4 @@
-import "../mainPage.css";
+import "../reportPage.css";
 
 function Navbar(){
     return(

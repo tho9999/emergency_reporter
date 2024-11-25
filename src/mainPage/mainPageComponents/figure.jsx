@@ -1,3 +1,5 @@
+import "../mainPage.css";
+
 function Figure(incident) {
     return (
         <figure>

@@ -1,3 +1,5 @@
+import "../mainPage.css";
+
 function List(){
     return (
         <ul>
