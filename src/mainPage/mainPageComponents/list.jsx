@@ -1,34 +1,14 @@
 import React, { useState } from "react";
 import "../mainPage.css";
 
-function List() {
-  const [incidents, setIncidents] = useState([
-    {
-      location: "Metrotown",
-      type: "shooting",
-      timeReported: "2023-11-01T17:30",
-      status: "RESOLVED",
-    },
-    {
-      location: "SFU Burnaby",
-      type: "medical",
-      timeReported: "2023-10-30T13:34",
-      status: "OPEN",
-    },
-    {
-      location: "SFU Surrey",
-      type: "elevator",
-      timeReported: "2023-10-22T05:30",
-      status: "OPEN",
-    },
-  ]);
+function List({incidents}) {
 
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   // Sorting function
   function sortIncidents(key) {
     const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    const sorted = [...incidents].sort((a, b) => {
+    [...incidents].sort((a, b) => {
       if (key === "timeReported") {
         return direction === "asc"
           ? new Date(a[key]) - new Date(b[key])
@@ -39,7 +19,6 @@ function List() {
         : b[key].localeCompare(a[key]);
     });
     setSortConfig({ key, direction });
-    setIncidents(sorted);
   }
 
   // Helper to show the arrow indicator
@@ -76,8 +55,8 @@ function List() {
           {incidents.map((incident, index) => (
             <tr key={index}>
               <td>{incident.location}</td>
-              <td>{incident.type}</td>
-              <td>{incident.timeReported}</td>
+              <td>{incident.emergency_info}</td>
+              <td>{incident.time}</td>
               <td>{incident.status}</td>
               <td>
               <button className="more-info-btn">MORE INFO</button>

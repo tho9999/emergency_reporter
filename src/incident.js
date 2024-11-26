@@ -6,7 +6,10 @@ export default class Incident {
         this.witness_phone= witness_phone;
         this.emergency_info = emergency_info;
         this.location = location;
-        this.picture = picture;
+        if(picture !== null){
+            this.picture = picture;
+        }
+        else{this.picture = null;}
         this.comments = comments;
         const now = new Date();
 
