@@ -18,6 +18,8 @@ function Form(){
 
     const [errors, setErrors] = useState({});
 
+    const [submitted, setSubmitted] = useState(false);
+
     const handleChange = (e) => {
 
         if (e.target.name === "picture"){
@@ -74,166 +76,175 @@ function Form(){
         }
 
 
+
         var incident = new Incident(formData.witness_first_name,formData.witness_last_name, formData.witness_phone,formData.emergency_info,formData.location,formData.picture,formData.comments);
         console.log(incident);
+        setSubmitted(true);
 
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label>
-                                Witness First Name:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                name="witness_first_name"
-                                value={formData.witness_first_name}
-                                onChange={handleChange}
-                            />
-                        </td>
-                        <td>
-                            <label>
-                                Witness Last Name:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                name="witness_last_name"
-                                value={formData.witness_last_name}
-                                onChange={handleChange}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan="4"> 
-                            {errors.witness_first_name && (
-                            <div className="error">{errors.witness_first_name}</div>
-                            )}
-                            {errors.witness_last_name && (
-                            <div className="error">{errors.witness_last_name}</div>
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Witness Phone:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="tel"
-                                name="witness_phone"
-                                value={formData.witness_phone}
-                                onChange={handleChange}
-                            />
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                    
-                        <td colSpan="4"> 
-                                {errors.witness_phone && (
-                                <div className="error">{errors.witness_phone}</div>
+        <div>
+            {!submitted ? (<form onSubmit={handleSubmit}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>
+                                    Witness First Name:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    name="witness_first_name"
+                                    value={formData.witness_first_name}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                            <td>
+                                <label>
+                                    Witness Last Name:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    name="witness_last_name"
+                                    value={formData.witness_last_name}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="4"> 
+                                {errors.witness_first_name && (
+                                <div className="error">{errors.witness_first_name}</div>
+                                )}
+                                {errors.witness_last_name && (
+                                <div className="error">{errors.witness_last_name}</div>
                                 )}
                             </td>
-                    
-                    </tr>
-
-
-                    <tr>
-                        <td>
-                            <label>
-                                Emergency type:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                name="emergency_info"
-                                value={formData.emergency_info}
-                                onChange={handleChange}
-                            />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colSpan="4"> 
-                                {errors.emergency_info && (
-                                <div className="error">{errors.emergency_info}</div>
-                                )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Witness Phone:
+                                </label>
                             </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label>
-                                Location:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                name="location"
-                                value={formData.location}
-                                onChange={handleChange}
-                            />
-                        </td>
+                            <td>
+                                <input
+                                    type="tel"
+                                    name="witness_phone"
+                                    value={formData.witness_phone}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
                         
-                    </tr>
-                    <tr>
-                        <td colSpan="4"> 
-                                {errors.location && (
-                                <div className="error">{errors.location}</div>
-                                )}
+                        <tr>
+                        
+                            <td colSpan="4"> 
+                                    {errors.witness_phone && (
+                                    <div className="error">{errors.witness_phone}</div>
+                                    )}
+                                </td>
+                        
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Emergency type:
+                                </label>
                             </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Picture:
-                            </label>
-                        </td>
-                        <td>
-                            <input
-                                type="file"
-                                name="picture"
-                                accept="image/*"
-                                onChange={handleChange}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>
-                                Comments:
-                            </label>
-                        </td>
-                        <td>
-                            <textarea
-                                rows="4"
-                                cols="50"
-                                name="comments"
-                                value={formData.comments}
-                                onChange={handleChange}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan="3">
-                            <button type="submit">Submit</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+                            <td>
+                                <input
+                                    type="text"
+                                    name="emergency_info"
+                                    value={formData.emergency_info}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colSpan="4"> 
+                                    {errors.emergency_info && (
+                                    <div className="error">{errors.emergency_info}</div>
+                                    )}
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Location:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    value={formData.location}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td colSpan="4"> 
+                                    {errors.location && (
+                                    <div className="error">{errors.location}</div>
+                                    )}
+                                </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Picture:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="file"
+                                    name="picture"
+                                    accept="image/*"
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Comments:
+                                </label>
+                            </td>
+                            <td>
+                                <textarea
+                                    rows="4"
+                                    cols="50"
+                                    name="comments"
+                                    value={formData.comments}
+                                    onChange={handleChange}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="3">
+                                <button type="submit">Submit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>) : (
+                <div>
+                    <h1>Incident reported</h1>
+                </div>
+            )}
+            
+        </div>
     );
 }
 
