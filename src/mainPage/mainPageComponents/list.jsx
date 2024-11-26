@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../mainPage.css";
-import incident from "./incident.js"
+import incident from "../../incident.js"
 
 function List() {
   let incidents = [];
