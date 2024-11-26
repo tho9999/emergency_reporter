@@ -8,10 +8,10 @@ import React, { useState } from 'react';
 
 function MainPage() {
   const [incidents, setIncidents] = useState([]);
-
   const addIncident = (newincident) => {
     setIncidents([...incidents, newincident]);
   };
+  // Test incident for map
 
   return (
     <div className="homePage">
