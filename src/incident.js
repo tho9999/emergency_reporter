@@ -84,3 +84,4 @@ class Incident {
     }
   }
   
+export default Incident

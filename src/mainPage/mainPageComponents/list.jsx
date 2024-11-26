@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import "../mainPage.css";
-import incident from "../../incident.js"
 
 function List() {
-  let incidents = [];
-function addIncident(newIncident) {
-  incidents.push(newIncident);
-}
+  const [incidents, setIncidents] = useState([
+    {
+      location: "Metrotown",
+      type: "shooting",
+      timeReported: "2023-11-01T17:30",
+      status: "RESOLVED",
+    },
+    {
+      location: "SFU Burnaby",
+      type: "medical",
+      timeReported: "2023-10-30T13:34",
+      status: "OPEN",
+    },
+    {
+      location: "SFU Surrey",
+      type: "elevator",
+      timeReported: "2023-10-22T05:30",
+      status: "OPEN",
+    },
+  ]);
 
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
@@ -26,7 +41,8 @@ function addIncident(newIncident) {
     setSortConfig({ key, direction });
     setIncidents(sorted);
   }
-  
+
+  // Helper to show the arrow indicator
   function getSortIndicator(key) {
     if (sortConfig.key === key) {
       return sortConfig.direction === "asc" ? " ▲" : " ▼";
