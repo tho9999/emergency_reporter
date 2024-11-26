@@ -3,6 +3,7 @@ import Map from './mainPageComponents/map';
 import Navbar from './mainPageComponents/navbar';
 import List from './mainPageComponents/list';
 import Figure from './mainPageComponents/figure';
+import FormButton from './mainPageComponents/FormButton';
 
 function MainPage() {
   return (
@@ -11,6 +12,7 @@ function MainPage() {
       <Map />
       <List />
       <Figure />
+      <FormButton />
     </div>
   );
 }
