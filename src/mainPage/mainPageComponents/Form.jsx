@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Incident from '../../incident.js';
 import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
 
-function Form(){
+function Form({onIncidentSubmit}) {
     const [formData, setFormData] = useState({
         witness_first_name: "",
         witness_last_name: "",
@@ -77,8 +77,19 @@ function Form(){
 
 
 
-        var incident = new Incident(formData.witness_first_name,formData.witness_last_name, formData.witness_phone,formData.emergency_info,formData.location,formData.picture,formData.comments);
+        var incident = new Incident(
+            formData.witness_first_name,
+            formData.witness_last_name,
+            formData.witness_phone,
+            formData.emergency_info,
+            formData.location,
+            formData.picture,
+            formData.comments);
+
         console.log(incident);
+
+        onIncidentSubmit(incident);
+
         setSubmitted(true);
 
     };

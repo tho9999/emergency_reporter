@@ -3,7 +3,7 @@ import Form from "./Form";
 
 import React, { useState } from 'react';
 
-function FormButton() {
+function FormButton({onIncidentSubmit}) {
   const [showForm, setShowForm] = useState(false);
 
   const handleClick = () => {
@@ -24,7 +24,7 @@ function FormButton() {
             <span className="close-button" onClick={handleCloseForm}>
               &times;
             </span>
-            <Form />
+            <Form onIncidentSubmit={onIncidentSubmit}/>
           </div>
         </div>
       )}
