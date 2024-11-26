@@ -3,9 +3,9 @@ import "../mainPage.css";
 import incident from "./incident.js"
 
 function List() {
-  let incidents = new Array();
+  let incidents = [];
 function addIncident(newIncident) {
-  incidents.push(newIncident);  
+  incidents.push(newIncident);
 }
 
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
@@ -26,8 +26,7 @@ function addIncident(newIncident) {
     setSortConfig({ key, direction });
     setIncidents(sorted);
   }
-
-  // Helper to show the arrow indicator
+  
   function getSortIndicator(key) {
     if (sortConfig.key === key) {
       return sortConfig.direction === "asc" ? " ▲" : " ▼";
