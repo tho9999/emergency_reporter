@@ -1,11 +1,15 @@
-class Incident {
-    constructor(witness_name, witness_phone,emergency_info,location, picture,comments) {
+export default class Incident {
+    constructor(witness_first_name,witness_last_name, witness_phone,emergency_info,location, picture,comments) {
       // Initialize variables
-        this.witness_name= witness_name;
+        this.witness_first_name= witness_first_name;
+        this.witness_last_name= witness_last_name;
         this.witness_phone= witness_phone;
         this.emergency_info = emergency_info;
         this.location = location;
-        this.picture = picture;
+        if(picture !== null){
+            this.picture = picture;
+        }
+        else{this.picture = null;}
         this.comments = comments;
         const now = new Date();
 
@@ -20,7 +24,7 @@ class Incident {
     }
   
     getWitnessName() {
-        return this.witness_name;
+        return `${this.witness_first_name} ${this.witness_last_name}`;
     }
 
     getWitnessPhone() {
@@ -51,8 +55,12 @@ class Incident {
         return this.status;
     }
 
-    setWitnessName(witness_name) {
-        this.witness_name = witness_name;
+    setWitnessFirstName(witness_first_name) {
+        this.witness_first_name = witness_first_name;
+    }
+
+    setWitnessLastName(witness_last_name) {
+        this.witness_last_name = witness_last_name;
     }
 
     setWitnessPhone(witness_phone) {
