@@ -16,7 +16,7 @@ function FormButton() {
 
   return (
     <div>
-      <button onClick={handleClick}>Open Form</button>
+      <button onClick={handleClick}>Report Incident</button>
 
       {showForm && (
         <div className="modal">
