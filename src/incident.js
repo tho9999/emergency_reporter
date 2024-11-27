@@ -91,4 +91,3 @@ export default class Incident {
         this.status = status;
     }
   }
-  
