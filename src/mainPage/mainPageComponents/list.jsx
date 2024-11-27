@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../mainPage.css";
 
 function List({ incidents }) {
-  const [sortedIncidents, setSortedIncidents] = useState(incidents);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   // Sorting function
@@ -10,7 +9,7 @@ function List({ incidents }) {
     const direction =
       sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
 
-    const sorted = [...sortedIncidents].sort((a, b) => {
+      incidents.sort((a, b) => {
       const aValue =
         key === "time" ? new Date(a.getTime()) : a[`get${capitalize(key)}`]?.();
       const bValue =
@@ -28,7 +27,7 @@ function List({ incidents }) {
     });
 
     setSortConfig({ key, direction });
-    setSortedIncidents(sorted);
+
   }
 
   // Capitalize helper function
@@ -67,7 +66,7 @@ function List({ incidents }) {
           </tr>
         </thead>
         <tbody>
-          {sortedIncidents.map((incident, index) => (
+          {incidents.map((incident, index) => (
             <tr key={index}>
               <td>{incident.getLocation()}</td>
               <td>{incident.getEmergencyInfo()}</td>
