@@ -36,7 +36,6 @@ function MainPage() {
 
   return (
     <div className="homePage">
-      <Navbar />
       <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents}/>
       {showMarker && (<Figure incident={incidents[incidentKey]}/>)}
       <List incidents={visibleIncidents}/>
