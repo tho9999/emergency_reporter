@@ -11,7 +11,8 @@ function Form({onIncidentSubmit}) {
         witness_last_name: "",
         witness_phone: "",
         emergency_info: "",
-        location: "",
+        longitude: "",
+        latitude: "",
         picture: null,
         comments: "",
     });
@@ -82,7 +83,8 @@ function Form({onIncidentSubmit}) {
             formData.witness_last_name,
             formData.witness_phone,
             formData.emergency_info,
-            formData.location,
+            formData.longitude,
+            formData.latitude,
             formData.picture,
             formData.comments);
 
@@ -191,19 +193,34 @@ function Form({onIncidentSubmit}) {
                         <tr>
                             <td>
                                 <label>
-                                    Location:
+                                    Longitude:
                                 </label>
                             </td>
                             <td>
                                 <input
                                     type="text"
-                                    name="location"
-                                    value={formData.location}
+                                    name="longitude"
+                                    value={formData.longitude}
+                                    onChange={handleChange}
+                                />
+                            </td>
+
+                            <td>
+                                <label>
+                                    Latitude:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    name="latitude"
+                                    value={formData.latitude}
                                     onChange={handleChange}
                                 />
                             </td>
                             
                         </tr>
+                        
                         <tr>
                             <td colSpan="4"> 
                                     {errors.location && (
