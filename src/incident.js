@@ -1,11 +1,11 @@
 export default class Incident {
-    constructor(witness_first_name,witness_last_name, witness_phone,emergency_info,location, picture,comments) {
+    constructor(witness_first_name,witness_last_name, witness_phone,emergency_info,long,lat, picture,comments) {
       // Initialize variables
         this.witness_first_name= witness_first_name;
         this.witness_last_name= witness_last_name;
         this.witness_phone= witness_phone;
         this.emergency_info = emergency_info;
-        this.location = location;
+        this.location = [parseFloat(long),parseFloat(lat)];
         if(picture !== null){
             this.picture = picture;
         }
@@ -14,10 +14,16 @@ export default class Incident {
         const now = new Date();
 
         //autofill time
-        const hours = now.getHours();
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const month = months[now.getMonth()]
+        const year = now.getFullYear();
+        const day = now.getDate();
+        let hours = now.getHours();
+        const amPm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12;
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
-        const currentTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const currentTime = `${month} ${day}, ${year} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}${amPm}`;
         this.time = currentTime
         this.status = "OPEN"
      
