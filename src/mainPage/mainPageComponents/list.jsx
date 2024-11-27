@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import "../mainPage.css";
 
-function List({incidents}) {
-
+function List({ incidents }) {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   // Sorting function
   function sortIncidents(key) {
-    const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    [...incidents].sort((a, b) => {
-      if (key === "timeReported") {
-        return direction === "asc"
-          ? new Date(a[key]) - new Date(b[key])
-          : new Date(b[key]) - new Date(a[key]);
+    const direction =
+      sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
+
+      incidents.sort((a, b) => {
+      const aValue =
+        key === "time" ? new Date(a.getTime()) : a[`get${capitalize(key)}`]?.();
+      const bValue =
+        key === "time" ? new Date(b.getTime()) : b[`get${capitalize(key)}`]?.();
+
+      if (!aValue || !bValue) return 0; // Handle undefined values gracefully
+
+      if (key === "time") {
+        return direction === "asc" ? aValue - bValue : bValue - aValue;
       }
+
       return direction === "asc"
-        ? a[key].localeCompare(b[key])
-        : b[key].localeCompare(a[key]);
+        ? aValue.toString().localeCompare(bValue.toString())
+        : bValue.toString().localeCompare(aValue.toString());
     });
+
     setSortConfig({ key, direction });
+
+  }
+
+  // Capitalize helper function
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   // Helper to show the arrow indicator
@@ -40,11 +54,11 @@ function List({incidents}) {
             <th onClick={() => sortIncidents("location")}>
               Location{getSortIndicator("location")}
             </th>
-            <th onClick={() => sortIncidents("type")}>
-              Type{getSortIndicator("type")}
+            <th onClick={() => sortIncidents("emergencyInfo")}>
+              Type{getSortIndicator("emergencyInfo")}
             </th>
-            <th onClick={() => sortIncidents("timeReported")}>
-              Time Reported{getSortIndicator("timeReported")}
+            <th onClick={() => sortIncidents("time")}>
+              Time Reported{getSortIndicator("time")}
             </th>
             <th onClick={() => sortIncidents("status")}>
               Status{getSortIndicator("status")}
@@ -54,13 +68,13 @@ function List({incidents}) {
         <tbody>
           {incidents.map((incident, index) => (
             <tr key={index}>
-              <td>{incident.location}</td>
-              <td>{incident.emergency_info}</td>
-              <td>{incident.time}</td>
-              <td>{incident.status}</td>
+              <td>{incident.getLocation()}</td>
+              <td>{incident.getEmergencyInfo()}</td>
+              <td>{incident.getTime()}</td>
+              <td>{incident.getStatus()}</td>
               <td>
-              <button className="more-info-btn">MORE INFO</button>
-            </td>
+                <button className="more-info-btn">MORE INFO</button>
+              </td>
             </tr>
           ))}
         </tbody>
