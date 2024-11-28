@@ -5,7 +5,7 @@ export default class Incident {
         this.witness_last_name= witness_last_name;
         this.witness_phone= witness_phone;
         this.emergency_info = emergency_info;
-        this.location = [parseFloat(long),parseFloat(lat)];
+        this.location = [parseFloat(lat), parseFloat(long)];
         if(picture !== null){
             this.picture = picture;
         }
