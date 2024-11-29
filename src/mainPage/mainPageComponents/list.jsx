@@ -44,11 +44,11 @@ function List({ incidents }) {
   }
 
   return (
-    <div>
-      <h1>Incident Report</h1>
+    <div style={{ textAlign: "center" }}>
+      <h1>Reported Incidents</h1>
 
-      {/* Incident List Table */}
-      <table className="incident-table">
+      
+      <table className="incidentTable" style={{ margin: "0 auto" }}>
         <thead>
           <tr>
             <th onClick={() => sortIncidents("location")}>
