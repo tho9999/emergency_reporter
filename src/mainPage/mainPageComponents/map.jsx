@@ -1,5 +1,5 @@
 import "../mainPage.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup,  } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -13,6 +13,31 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map({onMove,incidents,onMarkerClick}) {
+  // State that will change based on if the marker is being hovered
+  const [markerHovered, setMarkerHovered] = useState(null);
+
+  // Helper function for when a marker is hovered
+  const handleHover = (id) => {
+    setMarkerHovered(id);
+  }
+
+  // Helper function for when a marker is hovered off
+  const handleHoverOff = () => {
+    setMarkerHovered(null);
+  }
+
+  // Function to get the icon for the marker
+  const getMarkerIcon = (id) => {
+    return L.icon({
+      // Change the icon based on the hovered state
+      iconUrl: id === markerHovered ? '/images/map-pin-yellow.png' : 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      // Control the size of icon, where the icon is anchored, and where the popup is anchored
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [0, -44],
+      shadowSize: [25, 41],
+    });
+  }
   
   return (
     <div className="map-container">
@@ -29,12 +54,16 @@ function Map({onMove,incidents,onMarkerClick}) {
           <Marker
             key={index}
             position={incident.location} // [latitude, longitude]
+            // Gets the marker icon using id of incident
+            icon={getMarkerIcon(incident.id)}
             eventHandlers={{
               mouseover: (e) => {
                 e.target.openPopup();
+                handleHover(incident.id);
               },
               mouseout: (e) => {
                 e.target.closePopup();
+                handleHoverOff();
               },
               click: (e) => {
                 onMarkerClick(index,true)
