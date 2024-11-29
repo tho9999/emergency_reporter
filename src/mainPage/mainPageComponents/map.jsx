@@ -30,7 +30,7 @@ function Map({onMove,incidents,onMarkerClick}) {
   const getMarkerIcon = (id) => {
     return L.icon({
       // Change the icon based on the hovered state
-      iconUrl: id === markerHovered ? '/images/map-pin-yellow.png' : 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      iconUrl: id === markerHovered ?'/images/map-pin-yellow.png' : 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
       // Control the size of icon, where the icon is anchored, and where the popup is anchored
       iconSize: [25, 41],
       iconAnchor: [12, 41],

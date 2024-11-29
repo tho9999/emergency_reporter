@@ -36,10 +36,16 @@ function MainPage() {
 
   return (
     <div className="homePage">
-      <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents}/>
-      {showMarker && (<Figure incident={incidents[incidentKey]}/>)}
-      <List incidents={visibleIncidents}/>
-      <FormButton onIncidentSubmit={addIncident}/>
+      <div className='mapContainer'>
+        <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents}/>
+      </div>
+      {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]}/></div>)}
+      <div className='listContainer'>
+        <List incidents={visibleIncidents}/>
+      </div>
+      <div className="formContainer">
+        <FormButton onIncidentSubmit={addIncident}/>
+      </div>
     </div>
   );
 }

@@ -16,12 +16,12 @@ function FormButton({onIncidentSubmit}) {
 
   return (
     <div>
-      <button onClick={handleClick}>Report Incident</button>
+      <button className="reportButton" onClick={handleClick}>Report Incident</button>
 
       {showForm && (
-        <div className="modal">
+        <div className="modal" >
           <div className="modal-content">
-            <span className="close-button" onClick={handleCloseForm}>
+            <span className="close-button" onClick={handleCloseForm} >
               &times;
             </span>
             <Form onIncidentSubmit={onIncidentSubmit}/>
