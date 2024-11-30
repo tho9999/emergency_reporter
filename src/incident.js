@@ -1,11 +1,12 @@
 export default class Incident {
-    constructor(witness_first_name,witness_last_name, witness_phone,emergency_info,long,lat, picture,comments) {
+    constructor(witness_first_name,witness_last_name, witness_phone,emergency_info,long,lat,address,picture,comments) {
       // Initialize variables
         this.witness_first_name= witness_first_name;
         this.witness_last_name= witness_last_name;
         this.witness_phone= witness_phone;
         this.emergency_info = emergency_info;
         this.location = [parseFloat(lat), parseFloat(long)];
+        this.address = address;
         if(picture !== null){
             this.picture = picture;
         }
@@ -22,7 +23,6 @@ export default class Incident {
         const amPm = hours >= 12 ? "PM" : "AM";
         hours = hours % 12 || 12;
         const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
         const currentTime = `${month} ${day}, ${year} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}${amPm}`;
         this.time = currentTime
         this.status = "OPEN"
@@ -43,6 +43,10 @@ export default class Incident {
 
     getLocation() {
         return this.location;
+    }
+    
+    getAddress() {
+        return this.address;
     }
 
     getPicture() {
@@ -95,5 +99,9 @@ export default class Incident {
 
     setStatus(status) {
         this.status = status;
+    }
+
+    setAddress(address) {
+        this.address = address;
     }
   }

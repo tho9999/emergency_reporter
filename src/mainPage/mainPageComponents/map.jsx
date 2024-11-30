@@ -72,7 +72,7 @@ function Map({onMove,incidents,onMarkerClick}) {
             }}
           >
             <Popup>
-              <b>{incident.getLocation()} </b>
+              <b>{incident.getAddress()} </b>
               <br />
               <b>Emergency Info:</b> {incident.getEmergencyInfo()}
               <br />
