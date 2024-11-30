@@ -1,7 +1,7 @@
 import "../mainPage.css";
 
 import React, { useState } from 'react';
-
+import { OpenStreetMapProvider } from "leaflet-geosearch";  
 import Incident from '../../incident.js';
 import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
 
@@ -13,6 +13,7 @@ function Form({onIncidentSubmit}) {
         emergency_info: "",
         longitude: "",
         latitude: "",
+        address: "",
         picture: null,
         comments: "",
     });
@@ -20,6 +21,31 @@ function Form({onIncidentSubmit}) {
     const [errors, setErrors] = useState({});
 
     const [submitted, setSubmitted] = useState(false);
+
+    const fetchCoordinates = async (address) => {
+        // Use the OpenStreetMapProvider to fetch the coordinates
+        const provider = new OpenStreetMapProvider();
+        const results = await provider.search({ query: address });
+        // Check if the results are found
+        if (results && results.length > 0) {
+            const longitude= results[0].bounds[0][1];
+            const latitude= results[0].bounds[0][0]; 
+            // Set the form data with the coordinates
+            formData.longitude = longitude;
+            formData.latitude = latitude;
+            if (isNaN(longitude) || isNaN(latitude)) {
+                // If the coordinates are not numbers, return null
+                console.error("Coordinates not found.");
+                return null; 
+            }
+            // Return the coordinates if theres a number
+            return { latitude: latitude, longitude: longitude };
+        } else {
+            // If the address is not found, return null
+            console.error("Address not found.");
+            return null; 
+        }
+    }
 
     const handleChange = (e) => {
 
@@ -38,7 +64,9 @@ function Form({onIncidentSubmit}) {
         }
     };
 
-    const handleSubmit = (e) => {
+    
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = {};
@@ -61,31 +89,28 @@ function Form({onIncidentSubmit}) {
             areErrors = true;
             newErrors.witness_phone = "Must enter a valid 10-digit phone number";
         }
-        const coordinateRegex = /^-?\d+(\.\d+)?$/;
-        if (!coordinateRegex.test(formData.longitude) || formData.longitude === "") {
-            areErrors = true;
-            newErrors.longitude = "Must enter a valid longitude";
-        }
 
-        if (!coordinateRegex.test(formData.latitude) || formData.latitude === "") {
-            areErrors = true;
-            newErrors.latitude = "Must enter a valid latitude";
-        }
         if (formData.emergency_info === ""){
             areErrors = true;
             newErrors.emergency_info = "Must enter emergency type";
         }
 
-        if (formData.location === ""){
+        if (formData.address === ""){
             areErrors = true;
-            newErrors.location = "Must enter a location";
+            newErrors.address = "Must enter a address/location";
         }
         if (areErrors){
             setErrors(newErrors);
             return;
         }
 
-
+        //Invoke the fetchCoordinates function
+        const coordinates = await fetchCoordinates(formData.address);
+        if (!coordinates) {
+            // If the coordinates are not found, set the error
+            setErrors({ address: "Could not resolve the address. Please check it and try again." });
+            return;
+        }
 
         var incident = new Incident(
             formData.witness_first_name,
@@ -94,6 +119,7 @@ function Form({onIncidentSubmit}) {
             formData.emergency_info,
             formData.longitude,
             formData.latitude,
+            formData.address,
             formData.picture,
             formData.comments);
 
@@ -109,7 +135,7 @@ function Form({onIncidentSubmit}) {
         <div>
             {!submitted ? (
                 <form onSubmit={handleSubmit}>
-                    <table className="formTable">
+                    <table>
                         <tbody>
                             <tr>
                                 <td>
@@ -122,6 +148,10 @@ function Form({onIncidentSubmit}) {
                                         value={formData.witness_first_name}
                                         onChange={handleChange}
                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">
                                     {errors.witness_first_name && (
                                         <div className="error">{errors.witness_first_name}</div>
                                     )}
@@ -138,6 +168,10 @@ function Form({onIncidentSubmit}) {
                                         value={formData.witness_last_name}
                                         onChange={handleChange}
                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">
                                     {errors.witness_last_name && (
                                         <div className="error">{errors.witness_last_name}</div>
                                     )}
@@ -154,6 +188,10 @@ function Form({onIncidentSubmit}) {
                                         value={formData.witness_phone}
                                         onChange={handleChange}
                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">
                                     {errors.witness_phone && (
                                         <div className="error">{errors.witness_phone}</div>
                                     )}
@@ -170,6 +208,10 @@ function Form({onIncidentSubmit}) {
                                         value={formData.emergency_info}
                                         onChange={handleChange}
                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">
                                     {errors.emergency_info && (
                                         <div className="error">{errors.emergency_info}</div>
                                     )}
@@ -177,33 +219,21 @@ function Form({onIncidentSubmit}) {
                             </tr>
                             <tr>
                                 <td>
-                                    <label>Longitude:</label>
+                                    <label>Address:</label>
                                 </td>
                                 <td>
                                     <input
                                         type="text"
-                                        name="longitude"
-                                        value={formData.longitude}
+                                        name="address"
+                                        value={formData.address}
                                         onChange={handleChange}
                                     />
-                                    {errors.longitude && (
-                                        <div className="error">{errors.longitude}</div>
-                                    )}
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <label>Latitude:</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="latitude"
-                                        value={formData.latitude}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.latitude && (
-                                        <div className="error">{errors.latitude}</div>
+                                <td colSpan="2">
+                                    {errors.address && (
+                                        <div className="error">{errors.address}</div>
                                     )}
                                 </td>
                             </tr>
@@ -235,7 +265,7 @@ function Form({onIncidentSubmit}) {
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan="2" style={{ textAlign: "center" }}>
+                                <td colSpan="2">
                                     <button type="submit">Submit</button>
                                 </td>
                             </tr>
