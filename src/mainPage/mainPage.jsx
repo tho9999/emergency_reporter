@@ -41,7 +41,7 @@ function MainPage() {
       </div>
       {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]}/></div>)}
       <div className='listContainer'>
-        <List incidents={visibleIncidents}/>
+      <List incidents={visibleIncidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
       </div>
       <div className="formContainer">
         <FormButton onIncidentSubmit={addIncident}/>

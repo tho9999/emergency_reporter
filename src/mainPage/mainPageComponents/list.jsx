@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../mainPage.css";
 
-function List({ incidents }) {
+function List({ incidents, onMoreInfoClick}) {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   // Sorting function
@@ -73,7 +73,7 @@ function List({ incidents }) {
               <td>{incident.getTime()}</td>
               <td>{incident.getStatus()}</td>
               <td>
-                <button className="more-info-btn">MORE INFO</button>
+              <button className="more-info-btn" onClick={() => onMoreInfoClick(index)}>MORE INFO</button>
               </td>
             </tr>
           ))}
