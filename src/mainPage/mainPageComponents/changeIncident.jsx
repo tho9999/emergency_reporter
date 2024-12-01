@@ -21,6 +21,8 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
 
     const [errors, setErrors] = useState({});
 
+
+
     const fetchCoordinates = async (address) => {
         // Use the OpenStreetMapProvider to fetch the coordinates
         const provider = new OpenStreetMapProvider();
@@ -48,13 +50,20 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
 
     // Handle form data change
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData, 
-            [name]: value 
-        });
-    };
 
+        if (e.target.name === "picture"){
+            const file = e.target.files[0];
+            setFormData({
+                ...formData,
+                [e.target.name]: file,
+            })
+        } else{
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.value,
+            });
+        }
+    };
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();

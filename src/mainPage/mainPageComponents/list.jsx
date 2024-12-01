@@ -68,7 +68,7 @@ function List({ incidents, onMoreInfoClick}) {
         <tbody>
           {incidents.map((incident, index) => (
             <tr key={index}>
-              <td>{incident.getLocation()}</td>
+              <td>{incident.getAddress()}</td>
               <td>{incident.getEmergencyInfo()}</td>
               <td>{incident.getTime()}</td>
               <td>{incident.getStatus()}</td>

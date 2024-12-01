@@ -79,15 +79,16 @@ function Form({onIncidentSubmit}) {
             });
       
             if (inputValue) {
-              const provider = new OpenStreetMapProvider();
-              try{
-              provider.search({ query: inputValue }).then((results) => {
-                setAddressSuggestions(results);
-                setShowSuggestions(true);
-              });
-            } catch (error) {
-                console.error(error);
-              }
+               
+                    const provider = new OpenStreetMapProvider();
+                    
+                    provider.search({ query: inputValue }).then((results) => {
+                        setAddressSuggestions(results);
+                        setShowSuggestions(true);
+                    }).catch((error) => { // Catch the error here
+                        return;
+                      });
+            
             } else {
               setAddressSuggestions([]);
               setShowSuggestions(false);
@@ -144,7 +145,12 @@ function Form({onIncidentSubmit}) {
         //Invoke the fetchCoordinates function if no coordinates are provided
         var coordinates = null;
         if(formData.latitude === "" || formData.longitude === ""){
-            coordinates = await fetchCoordinates(formData.address);
+            try {
+                coordinates = await fetchCoordinates(formData.address);
+            }   
+            catch (error) {
+                console.error("Error fetching coordinates.");
+            }
         }
         else {
             coordinates = {latitude: formData.latitude, longitude: formData.longitude};
