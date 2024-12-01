@@ -1,9 +1,8 @@
 import "../mainPage.css";
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup,  } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import Incident from "../../incident";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -13,7 +12,23 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map({onMove,incidents,onMarkerClick}) {
-
+  // hook to listen to map events
+  function MapEventsHandler() {
+    const map = useMapEvents({
+      moveend: () => {
+        updateVisibleIncidents(map); // Update visible incidents on move
+      },
+    });
+    // Function to update visible incidents based on map bounds
+    const updateVisibleIncidents = (mapInstance) => {
+      const bounds = mapInstance.getBounds(); // Get map bounds
+      const visible = incidents.filter((incident) =>
+        bounds.contains(incident.location) // Check if incident is within bounds
+      );
+      onMove(visible); // Pass visible incidents to main page
+    };
+    return null;
+  }
   return (
     <div className="map-container">
       <MapContainer
@@ -25,19 +40,18 @@ function Map({onMove,incidents,onMarkerClick}) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
-        {incidents.map((incident, index) => (
+        <MapEventsHandler />
+        {incidents
+          .map((incident, index) => (
           <Marker
             key={index}
             position={incident.location} // [latitude, longitude]
-            // Gets the marker icon using id of incident
             eventHandlers={{
               mouseover: (e) => {
                 e.target.openPopup();
-                e.target._icon.src = "/images/map-pin-yellow.png";
               },
               mouseout: (e) => {
                 e.target.closePopup();
-                e.target._icon.src = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
               },
               click: (e) => {
                 onMarkerClick(index,true)
@@ -46,8 +60,6 @@ function Map({onMove,incidents,onMarkerClick}) {
             }}
           >
             <Popup>
-              <b>{incident.getAddress()} </b>
-              <br />
               <b>Emergency Info:</b> {incident.getEmergencyInfo()}
               <br />
               <b>Status:</b> {incident.getStatus()}
