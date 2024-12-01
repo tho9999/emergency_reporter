@@ -1,5 +1,5 @@
 import "../mainPage.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -49,9 +49,11 @@ function Map({onMove,incidents,onMarkerClick}) {
             eventHandlers={{
               mouseover: (e) => {
                 e.target.openPopup();
+                e.target._icon.src = "/images/map-pin-yellow.png";
               },
               mouseout: (e) => {
                 e.target.closePopup();
+                e.target._icon.src = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
               },
               click: (e) => {
                 onMarkerClick(index,true)
@@ -60,6 +62,8 @@ function Map({onMove,incidents,onMarkerClick}) {
             }}
           >
             <Popup>
+              <b>{incident.getAddress()} </b>
+              <br />
               <b>Emergency Info:</b> {incident.getEmergencyInfo()}
               <br />
               <b>Status:</b> {incident.getStatus()}
