@@ -74,16 +74,16 @@
 }
 
 .close-button {
-  position: absolute; /* Add this */
-  font-size: x-large; /* Adjust as needed */
-  top: 0px; /* Adjust as needed */
-  right: 10px; /* Adjust as needed */
+  position: absolute; 
+  font-size: x-large;
+  top: 0px;
+  right: 10px; 
   cursor: pointer;
 }
 
 .formTable {
   width: 100%;
-  max-width: 600px; /* Adjust as needed */
+  max-width: 600px; 
   border-collapse: collapse;
   margin-bottom: 20px;
 }
@@ -140,4 +140,35 @@
   color: #d9534f;
   font-size: 0.9em;
   margin-top: 5px;
+}
+
+.address-suggestions{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding: 0%;
+  text-align: center;
+  background-color: white;
+  border: 1px solid black;
+  z-index: 10;
+}
+.address-suggestions ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.address-suggestions li {
+  padding: 10px;
+  list-style: none;
+  cursor: pointer;
+  background-color: white;
+  transition: transform 0.1s ease-in-out;
+}
+
+.address-suggestions li:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
 }
