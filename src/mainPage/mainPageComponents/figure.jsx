@@ -3,7 +3,7 @@ import "../mainPage.css";
 import PasswordPopup from "./passwordPopup.jsx";
 import ChangeIncident from "./changeIncident";
 
-function Figure({ incident }) {
+function Figure({ incident, onUpdateIncident }) {
     
     // If there is a picture then create URL to picture if not pictureSource is null
     const pictureSource = incident.getPicture() ? URL.createObjectURL(incident.getPicture()) : null;
@@ -26,6 +26,8 @@ function Figure({ incident }) {
         console.log("Saving changes to incident...");
         console.log(formData);
         setShowChangeIncidentForm(false);
+        onUpdateIncident(formData);
+
     };
 
     return (

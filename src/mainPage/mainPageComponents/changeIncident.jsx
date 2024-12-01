@@ -12,6 +12,8 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
         witness_phone: incident.getWitnessPhone(),
         emergency_info: incident.getEmergencyInfo(),
         address: incident.getAddress(),
+        latitude: incident.getLocation()[0],
+        longitude: incident.getLocation()[1],
         picture: incident.getPicture(),
         status: incident.getStatus(),
         comments: incident.getComments(),
@@ -87,13 +89,20 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
             areErrors = true;
             newErrors.address = "Must enter a address/location";
         }
+
         if (areErrors){
             setErrors(newErrors);
             return;
         }
 
         //Invoke the fetchCoordinates function
-        const coordinates = await fetchCoordinates(formData.address);
+        var coordinates = null;
+        if(formData.latitude === "" || formData.longitude === ""){
+            coordinates = await fetchCoordinates(formData.address);
+        }
+        else {
+            coordinates = {latitude: formData.latitude, longitude: formData.longitude};
+        }
         if (!coordinates) {
             // If the coordinates are not found, set the error
             setErrors({ address: "Could not resolve the address. Please check it and try again." });
@@ -123,7 +132,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                     <table>
                         <tbody>
                             <tr>
-                                <td colspan="2">
+                                <td colSpan="3">
                                     <h2>Editing Incident</h2>
                                 </td>
                             </tr>
@@ -131,7 +140,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Witness First Name:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <input
                                         type="text"
                                         name="witness_first_name"
@@ -141,6 +150,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td colSpan="2">
                                     {errors.witness_first_name && (
                                         <div className="error">{errors.witness_first_name}</div>
@@ -151,7 +161,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Witness Last Name:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <input
                                         type="text"
                                         name="witness_last_name"
@@ -161,6 +171,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td colSpan="2">
                                     {errors.witness_last_name && (
                                         <div className="error">{errors.witness_last_name}</div>
@@ -171,7 +182,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Witness Phone:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <input
                                         type="tel"
                                         name="witness_phone"
@@ -181,6 +192,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td colSpan="2">
                                     {errors.witness_phone && (
                                         <div className="error">{errors.witness_phone}</div>
@@ -191,7 +203,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Emergency Type:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <input
                                         type="text"
                                         name="emergency_info"
@@ -201,6 +213,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td colSpan="2">
                                     {errors.emergency_info && (
                                         <div className="error">{errors.emergency_info}</div>
@@ -211,7 +224,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Address:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <input
                                         type="text"
                                         name="address"
@@ -221,6 +234,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td colSpan="2">
                                     {errors.address && (
                                         <div className="error">{errors.address}</div>
@@ -229,9 +243,32 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                             </tr>
                             <tr>
                                 <td>
-                                    <label>Picture:</label>
+                                    <label>Coordinates:</label>
                                 </td>
                                 <td>
+                                    <input
+                                        type="text"
+                                        name="latitude"
+                                        placeholder="Latitude"
+                                        value={formData.latitude}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="longitude"
+                                        placeholder="Longitude"
+                                        value={formData.longitude}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Picture:</label>
+                                </td>
+                                <td colSpan="2">
                                     <input
                                         type="file"
                                         name="picture"
@@ -244,7 +281,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Status:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <select
                                         name="status"
                                         value={formData.status}
@@ -259,7 +296,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td>
                                     <label>Comments:</label>
                                 </td>
-                                <td>
+                                <td colSpan="2">
                                     <textarea
                                         rows="4"
                                         cols="50"
