@@ -22,10 +22,17 @@ function Form({onIncidentSubmit}) {
 
     const [submitted, setSubmitted] = useState(false);
 
+    const [addressSuggestions, setAddressSuggestions] = useState([]);
+
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+
+    
     const fetchCoordinates = async (address) => {
         // Use the OpenStreetMapProvider to fetch the coordinates
         const provider = new OpenStreetMapProvider();
         const results = await provider.search({ query: address });
+        console.log(results);
         // Check if the results are found
         if (results && results.length > 0) {
             const longitude= results[0].bounds[0][1];
@@ -47,6 +54,15 @@ function Form({onIncidentSubmit}) {
         }
     }
 
+    const handleSuggestionSelect = (suggestion) => {
+        setFormData({
+          ...formData,
+          address: suggestion.label,
+        });
+        setAddressSuggestions([]);
+        setShowSuggestions(false);
+      };
+
     const handleChange = (e) => {
 
         if (e.target.name === "picture"){
@@ -55,7 +71,28 @@ function Form({onIncidentSubmit}) {
                 ...formData,
                 [e.target.name]: file,
             })
-        }
+        } else if (e.target.name === "address") {
+            const inputValue = e.target.value;
+            setFormData({
+              ...formData,
+              [e.target.name]: inputValue,
+            });
+      
+            if (inputValue) {
+              const provider = new OpenStreetMapProvider();
+              try{
+              provider.search({ query: inputValue }).then((results) => {
+                setAddressSuggestions(results);
+                setShowSuggestions(true);
+              });
+            } catch (error) {
+                console.error(error);
+              }
+            } else {
+              setAddressSuggestions([]);
+              setShowSuggestions(false);
+            }
+          }
         else{
             setFormData({
                 ...formData,
@@ -242,8 +279,28 @@ function Form({onIncidentSubmit}) {
                                         name="address"
                                         value={formData.address}
                                         onChange={handleChange}
+                                        autoComplete="off"
+                                        
                                     />
                                 </td>
+                                <td>
+                                    {showSuggestions && addressSuggestions.length > 0 && (
+                                    <ul
+                                        className="address-suggestions"
+                                        
+                                    >
+                                        {addressSuggestions.map((suggestion) => (
+                                        <li
+                                            className="suggested-address"
+                                            key={suggestion.x}
+                                            onClick={() => handleSuggestionSelect(suggestion)}
+                                        >
+                                            {suggestion.label}
+                                        </li>
+                                        ))}
+                                    </ul>
+                                    )}
+                                    </td>
                             </tr>
                             <tr>
                                 <td></td>
