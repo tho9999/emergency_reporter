@@ -32,7 +32,6 @@ function PasswordPopup({onClose, onPasswordCorrect}) {
             <div className="password-popup">
                 <h2>Enter Password</h2>
                 <form onSubmit={handlePasswordSubmit}>
-                    <label htmlFor="password">Enter Passcode:</label>
                     <input
                         type="password"
                         id="password"

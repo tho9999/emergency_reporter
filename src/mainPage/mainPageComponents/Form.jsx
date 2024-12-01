@@ -138,6 +138,11 @@ function Form({onIncidentSubmit}) {
                     <table>
                         <tbody>
                             <tr>
+                                <td colspan="2">
+                                    <h2>Reporting New Incident</h2>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <label>Witness First Name:</label>
                                 </td>

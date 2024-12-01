@@ -123,7 +123,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                     <table>
                         <tbody>
                             <tr>
-                                <td>
+                                <td colspan="2">
                                     <h2>Editing Incident</h2>
                                 </td>
                             </tr>
