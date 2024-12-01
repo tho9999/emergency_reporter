@@ -1,5 +1,5 @@
 import "../mainPage.css";
-import React from "react";
+import React, { useState} from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -12,9 +12,16 @@ L.Icon.Default.mergeOptions({
 });
 
 function Map({onMove,incidents,onMarkerClick}) {
-  // hook to listen to map events
+  const [zoomLevel, setZoomLevel] = useState(13);
+  const maxZoom = 11.5;
+    // hook to listen to map events
   function MapEventsHandler() {
     const map = useMapEvents({
+      zoomend: () => {
+        // Make all invisible if current zoom <= maxZoom
+        // Small zoom is out, big zoom is in
+        updateVisibleIncidents(map);
+      },
       moveend: () => {
         updateVisibleIncidents(map); // Update visible incidents on move
       },
@@ -22,9 +29,12 @@ function Map({onMove,incidents,onMarkerClick}) {
     // Function to update visible incidents based on map bounds
     const updateVisibleIncidents = (mapInstance) => {
       const bounds = mapInstance.getBounds(); // Get map bounds
+      const currentZoom = map.getZoom();
       const visible = incidents.filter((incident) =>
-        bounds.contains(incident.location) // Check if incident is within bounds
+        bounds.contains(incident.location)
+        && currentZoom >= maxZoom // Check if incident is within bounds
       );
+      setZoomLevel(currentZoom);
       onMove(visible); // Pass visible incidents to main page
     };
     return null;
@@ -42,6 +52,7 @@ function Map({onMove,incidents,onMarkerClick}) {
         />
         <MapEventsHandler />
         {incidents
+          .filter(() => zoomLevel >= maxZoom)
           .map((incident, index) => (
           <Marker
             key={index}
