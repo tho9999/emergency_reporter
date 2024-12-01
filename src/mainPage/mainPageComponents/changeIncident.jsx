@@ -1,38 +1,30 @@
-import "../mainPage.css";
-
 import React, { useState } from 'react';
-import { OpenStreetMapProvider } from "leaflet-geosearch";  
+import "../mainPage.css";
+import { OpenStreetMapProvider } from "leaflet-geosearch"; 
 import Incident from '../../incident.js';
-import { toHaveErrorMessage } from "@testing-library/jest-dom/dist/matchers";
 
-function Form({onIncidentSubmit}) {
+
+function ChangeIncident({ incident, onCancel, onUpdate }) {
+    // State to store form data, initialized with the existing incident data
     const [formData, setFormData] = useState({
-        witness_first_name: "",
-        witness_last_name: "",
-        witness_phone: "",
-        emergency_info: "",
-        longitude: "",
-        latitude: "",
-        address: "",
-        picture: null,
-        comments: "",
+        witness_first_name: incident.getWitnessName().split(" ")[0],
+        witness_last_name: incident.getWitnessName().split(" ")[1],
+        witness_phone: incident.getWitnessPhone(),
+        emergency_info: incident.getEmergencyInfo(),
+        address: incident.getAddress(),
+        latitude: incident.getLocation()[0],
+        longitude: incident.getLocation()[1],
+        picture: incident.getPicture(),
+        status: incident.getStatus(),
+        comments: incident.getComments(),
     });
 
     const [errors, setErrors] = useState({});
 
-    const [submitted, setSubmitted] = useState(false);
-
-    const [addressSuggestions, setAddressSuggestions] = useState([]);
-
-    const [showSuggestions, setShowSuggestions] = useState(false);
-
-
-    
     const fetchCoordinates = async (address) => {
         // Use the OpenStreetMapProvider to fetch the coordinates
         const provider = new OpenStreetMapProvider();
         const results = await provider.search({ query: address });
-        console.log(results);
         // Check if the results are found
         if (results && results.length > 0) {
             const longitude= results[0].bounds[0][1];
@@ -54,55 +46,16 @@ function Form({onIncidentSubmit}) {
         }
     }
 
-    const handleSuggestionSelect = (suggestion) => {
-        setFormData({
-          ...formData,
-          address: suggestion.label,
-        });
-        setAddressSuggestions([]);
-        setShowSuggestions(false);
-      };
-
+    // Handle form data change
     const handleChange = (e) => {
-
-        if (e.target.name === "picture"){
-            const file = e.target.files[0];
-            setFormData({
-                ...formData,
-                [e.target.name]: file,
-            })
-        } else if (e.target.name === "address") {
-            const inputValue = e.target.value;
-            setFormData({
-              ...formData,
-              [e.target.name]: inputValue,
-            });
-      
-            if (inputValue) {
-              const provider = new OpenStreetMapProvider();
-              try{
-              provider.search({ query: inputValue }).then((results) => {
-                setAddressSuggestions(results);
-                setShowSuggestions(true);
-              });
-            } catch (error) {
-                console.error(error);
-              }
-            } else {
-              setAddressSuggestions([]);
-              setShowSuggestions(false);
-            }
-          }
-        else{
-            setFormData({
-                ...formData,
-                [e.target.name]: e.target.value,
-            });
-        }
+        const { name, value } = e.target;
+        setFormData({
+            ...formData, 
+            [name]: value 
+        });
     };
 
-    
-
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -136,12 +89,13 @@ function Form({onIncidentSubmit}) {
             areErrors = true;
             newErrors.address = "Must enter a address/location";
         }
+
         if (areErrors){
             setErrors(newErrors);
             return;
         }
 
-        //Invoke the fetchCoordinates function if no coordinates are provided
+        //Invoke the fetchCoordinates function
         var coordinates = null;
         if(formData.latitude === "" || formData.longitude === ""){
             coordinates = await fetchCoordinates(formData.address);
@@ -154,35 +108,32 @@ function Form({onIncidentSubmit}) {
             setErrors({ address: "Could not resolve the address. Please check it and try again." });
             return;
         }
+        console.log("new address is " + formData.address);
+        console.log("new coordinates are " + coordinates.latitude + " " + coordinates.longitude);
 
-        var incident = new Incident(
-            formData.witness_first_name,
-            formData.witness_last_name,
-            formData.witness_phone,
-            formData.emergency_info,
-            formData.longitude,
-            formData.latitude,
-            formData.address,
-            formData.picture,
-            formData.comments);
+        // Update the incident with the new data
+        incident.setWitnessFirstName(formData.witness_first_name);
+        incident.setWitnessLastName(formData.witness_last_name);
+        incident.setWitnessPhone(formData.witness_phone);
+        incident.setEmergencyInfo(formData.emergency_info);
+        incident.setLocation([parseFloat(formData.latitude), parseFloat(formData.longitude)]);
+        incident.setAddress(formData.address);
+        incident.setPicture(formData.picture);
+        incident.setStatus(formData.status);
+        incident.setComments(formData.comments);
 
         console.log(incident);
-
-        onIncidentSubmit(incident);
-
-        setSubmitted(true);
-
+        onUpdate(incident);
     };
 
     return (
-        <div>
-            {!submitted ? (
-                <form onSubmit={handleSubmit}>
+        <div className="form-overlay">
+            <form onSubmit={handleSubmit}>
                     <table>
                         <tbody>
                             <tr>
                                 <td colSpan="3">
-                                    <h2>Reporting New Incident</h2>
+                                    <h2>Editing Incident</h2>
                                 </td>
                             </tr>
                             <tr>
@@ -279,28 +230,8 @@ function Form({onIncidentSubmit}) {
                                         name="address"
                                         value={formData.address}
                                         onChange={handleChange}
-                                        autoComplete="off"
-                                        
                                     />
                                 </td>
-                                <td>
-                                    {showSuggestions && addressSuggestions.length > 0 && (
-                                    <ul
-                                        className="address-suggestions"
-                                        
-                                    >
-                                        {addressSuggestions.map((suggestion) => (
-                                        <li
-                                            className="suggested-address"
-                                            key={suggestion.x}
-                                            onClick={() => handleSuggestionSelect(suggestion)}
-                                        >
-                                            {suggestion.label}
-                                        </li>
-                                        ))}
-                                    </ul>
-                                    )}
-                                    </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -348,6 +279,21 @@ function Form({onIncidentSubmit}) {
                             </tr>
                             <tr>
                                 <td>
+                                    <label>Status:</label>
+                                </td>
+                                <td colSpan="2">
+                                    <select
+                                        name="status"
+                                        value={formData.status}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="OPEN">OPEN</option>
+                                        <option value="RESOLVED">RESOLVED</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <label>Comments:</label>
                                 </td>
                                 <td colSpan="2">
@@ -362,19 +308,15 @@ function Form({onIncidentSubmit}) {
                             </tr>
                             <tr>
                                 <td colSpan="2">
-                                    <button type="submit">Submit</button>
+                                    <button type="submit">Update</button>
+                                    <button type="button" onClick={onCancel}>Cancel</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
-            ) : (
-                <div>
-                    <h1>Incident reported</h1>
-                </div>
-            )}
         </div>
     );
 }
 
-export default Form;
+export default ChangeIncident;

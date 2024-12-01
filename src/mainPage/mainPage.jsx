@@ -30,6 +30,14 @@ function MainPage() {
     setShowMarker(index);
     console.log(key,index);
   }
+
+  const updateIncident = (updatedIncident) => {
+    setIncidents((prevIncidents) =>
+      prevIncidents.map((incident) =>
+        incident === updatedIncident ? updatedIncident : incident
+      )
+    );
+  }
   
 
   // Test incident for map
@@ -39,9 +47,9 @@ function MainPage() {
       <div className='mapContainer'>
         <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents}/>
       </div>
-      {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]}/></div>)}
+      {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]} onUpdateIncident={updateIncident}/></div>)}
       <div className='listContainer'>
-      <List incidents={visibleIncidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
+      <List incidents={incidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
       </div>
       <div className="formContainer">
         <FormButton onIncidentSubmit={addIncident}/>
