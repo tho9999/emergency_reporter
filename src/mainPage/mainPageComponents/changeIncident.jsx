@@ -4,7 +4,7 @@ import { OpenStreetMapProvider } from "leaflet-geosearch";
 import Incident from '../../incident.js';
 
 
-function ChangeIncident({ incident, onCancel, onUpdate }) {
+function ChangeIncident({ incident, onCancel, onUpdate, onDelete }) {
     // State to store form data, initialized with the existing incident data
     const [formData, setFormData] = useState({
         witness_first_name: incident.getWitnessName().split(" ")[0],
@@ -131,9 +131,14 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
         incident.setStatus(formData.status);
         incident.setComments(formData.comments);
 
-        console.log(incident);
         onUpdate(incident);
     };
+
+    const handleDelete = () => {
+        if (window.confirm("Are you sure you want to delete this incident?")) {
+            onDelete(incident);
+        }
+    }
 
     return (
         <div className="form-overlay">
@@ -319,6 +324,7 @@ function ChangeIncident({ incident, onCancel, onUpdate }) {
                                 <td colSpan="2">
                                     <button type="submit">Update</button>
                                     <button type="button" onClick={onCancel}>Cancel</button>
+                                    <button type="button" onClick={handleDelete}>Delete</button>
                                 </td>
                             </tr>
                         </tbody>
