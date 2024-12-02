@@ -3,7 +3,7 @@ import "../mainPage.css";
 import PasswordPopup from "./passwordPopup.jsx";
 import ChangeIncident from "./changeIncident";
 
-function Figure({ incident, onUpdateIncident }) {
+function Figure({ incident, onUpdateIncident, onDeleteIncident }) {
     
     // If there is a picture then create URL to picture if not pictureSource is null
     const pictureSource = incident.getPicture() ? URL.createObjectURL(incident.getPicture()) : null;
@@ -30,6 +30,10 @@ function Figure({ incident, onUpdateIncident }) {
 
     };
 
+    const handleDelete = () => {
+        onDeleteIncident(incident);
+    };
+
     return (
         <figure>
             {incident.getPicture() && <img src={pictureSource} alt="Incident" />}
@@ -49,7 +53,8 @@ function Figure({ incident, onUpdateIncident }) {
             {showChangeIncidentForm && <ChangeIncident 
                 incident={incident}
                 onCancel={() => setShowChangeIncidentForm(false)}
-                onUpdate={handleSaveChanges} />}
+                onUpdate={handleSaveChanges}
+                onDelete={handleDelete} />}
         </figure>
     );
 }

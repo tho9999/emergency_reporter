@@ -41,7 +41,11 @@ function MainPage() {
     );
   }
   
-
+  const onDeleteIncident = (toDelete) => {
+    setIncidents(prevIncidents =>
+      prevIncidents.filter(incident => incident !== toDelete)
+  );
+  }
   // Test incident for map
 
   return (
@@ -49,7 +53,7 @@ function MainPage() {
       <div className='mapContainer'>
         <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents} mapRef={mapRef}/>
       </div>
-      {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]} onUpdateIncident={updateIncident}/></div>)}
+      {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]} onUpdateIncident={updateIncident} onDeleteIncident={onDeleteIncident}/></div>)}
       <div className='listContainer'>
       <List incidents={visibleIncidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
       </div>
