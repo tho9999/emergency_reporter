@@ -3,7 +3,7 @@ import Map from './mainPageComponents/map';
 import List from './mainPageComponents/list';
 import Figure from './mainPageComponents/figure';
 import FormButton from './mainPageComponents/FormButton';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 function MainPage() {
   const [incidents, setIncidents] = useState([]);
@@ -23,10 +23,14 @@ function MainPage() {
 
   const [incidentKey, setIncidentKey] = useState(null);
 
+  const mapRef = useRef(null);
   const changeIncident = (key,index) => {
     setIncidentKey(key);
     setShowMarker(index);
-    console.log(key,index);
+    if (mapRef.current) {
+      const map = mapRef.current;
+      map.flyTo(incidents[key].location, 16);
+    }
   }
 
   const updateIncident = (updatedIncident) => {
@@ -43,7 +47,7 @@ function MainPage() {
   return (
     <div className="homePage">
       <div className='mapContainer'>
-        <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents}/>
+        <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents} mapRef={mapRef}/>
       </div>
       {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]} onUpdateIncident={updateIncident}/></div>)}
       <div className='listContainer'>

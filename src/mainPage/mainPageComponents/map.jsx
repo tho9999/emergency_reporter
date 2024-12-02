@@ -11,7 +11,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-function Map({onMove,incidents,onMarkerClick}) {
+function Map({onMove,incidents,onMarkerClick,mapRef}) {
   const [zoomLevel, setZoomLevel] = useState(13);
   const maxZoom = 11.5;
     // hook to listen to map events
@@ -45,6 +45,7 @@ function Map({onMove,incidents,onMarkerClick}) {
         center={[49.27220213143677, -123.10171962066065]} // Default center
         zoom={13}
         style={{ height: "500px", width: "100%" }} // Map size
+        ref={mapRef}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
