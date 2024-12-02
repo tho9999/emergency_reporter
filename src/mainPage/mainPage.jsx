@@ -44,7 +44,9 @@ function MainPage() {
   const onDeleteIncident = (toDelete) => {
     setIncidents(prevIncidents =>
       prevIncidents.filter(incident => incident !== toDelete)
-  );
+    );
+    setIncidentKey(null);
+    setShowMarker(false);
   }
   // Test incident for map
 
