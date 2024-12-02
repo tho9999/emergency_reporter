@@ -15,8 +15,6 @@ function MainPage() {
   const [visibleIncidents, setVisibleIncidents] = useState([]);
 
   const changeVisibleIncidents = (incidents) => {
-    console.log("test");
-    console.log(incidents);
     setVisibleIncidents(incidents);
   }
  
