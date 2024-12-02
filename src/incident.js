@@ -23,7 +23,7 @@ export default class Incident {
         const amPm = hours >= 12 ? "PM" : "AM";
         hours = hours % 12 || 12;
         const minutes = now.getMinutes();
-        const currentTime = `${month} ${day}, ${year} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}${amPm}`;
+        const currentTime = `${month} ${day}, ${year} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${amPm}`;
         this.time = currentTime
         this.status = "OPEN"
      

@@ -15,8 +15,6 @@ function MainPage() {
   const [visibleIncidents, setVisibleIncidents] = useState([]);
 
   const changeVisibleIncidents = (incidents) => {
-    console.log("test");
-    console.log(incidents);
     setVisibleIncidents(incidents);
   }
  
@@ -49,7 +47,7 @@ function MainPage() {
       </div>
       {showMarker && (<div className='figureContainer'><Figure incident={incidents[incidentKey]} onUpdateIncident={updateIncident}/></div>)}
       <div className='listContainer'>
-      <List incidents={incidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
+      <List incidents={visibleIncidents} onMoreInfoClick={(index) => changeIncident(index, true)} />
       </div>
       <div className="formContainer">
         <FormButton onIncidentSubmit={addIncident}/>
