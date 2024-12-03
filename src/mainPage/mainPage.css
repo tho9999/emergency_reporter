@@ -32,25 +32,152 @@
   font-size: small;
 }
 
+/* General page layout */
 .homePage{
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  gap: 20px;
 }
 
+
+/* Map container styling */
 .mapContainer {
   flex-shrink: 0;
-  min-height: 30vh;
-  width: 100%;
+  min-height: 40vh;
+  width: 75%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Figure container (selected incident) */
+.figureContainer {
+  width: 100%;
+  max-width: 800px; /* Limit the width of the selected incident display */
+  background-color: #d8eccec7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.figureContainer h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.figureContainer img {
+  width: 50%;
+  height: 50%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Center the image */
+  display: block;
+}
+
+.figureContainer p {
+  margin-bottom: 10px;
+}
+
+.figureContainer button {
+  padding: 7px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-weight: bold;
+  background-color: #d8d8d8;
+}
+
+.figureContainer button:hover {
+  background-color: #979797;
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
+}
+
+/* Incident list container */
+.listContainer {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto; /* Add scroll if the list gets too long */
+  max-height: 300px; /* Limit list container height */
+}
+
+.incidentTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.incidentTable th,
+.incidentTable td {
+  padding: 10px 15px;
+  border: 1px solid #c5c5c5;
+  font-size: 0.9rem;
+}
+
+.incidentTable th {
+  background-color: #ddd;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+
+.incidentTable td {
+  background-color: #f4f4f4;
+}
+
+.more-info-btn {
+  color: #398339;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.more-info-btn:hover {
+  text-decoration: underline;
+}
 
 .formContainer {
   display: flex;
   height: 50vh;
   flex-direction: column;
   align-items: center;
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+  .mapContainer {
+    height: 30vh; /* Reduce map height on smaller screens */
+  }
+
+  .figureContainer {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .listContainer {
+    max-height: 200px; /* Reduce list height */
+  }
+
+  .incidentTable th,
+  .incidentTable td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
 }
 
 .modal-content { 

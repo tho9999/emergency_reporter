@@ -55,7 +55,7 @@ function Map({onMove,incidents,onMarkerClick,mapRef}) {
       <MapContainer
         center={[49.27220213143677, -123.10171962066065]} // Default center
         zoom={13}
-        style={{ height: "500px", width: "100%" }} // Map size
+        style={{ height: "500px", width: "100%", borderRadius: "8px" }} 
         ref={mapRef}
       >
         <TileLayer
