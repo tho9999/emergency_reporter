@@ -241,6 +241,7 @@ function Form({onIncidentSubmit}) {
                                     <input
                                         type="tel"
                                         name="witness_phone"
+                                        placeholder="e.g. 0123456789"
                                         value={formData.witness_phone}
                                         onChange={handleChange}
                                     />
@@ -262,6 +263,7 @@ function Form({onIncidentSubmit}) {
                                     <input
                                         type="text"
                                         name="emergency_info"
+                                        placeholder="e.g. a child in danger or a house is on fire"
                                         value={formData.emergency_info}
                                         onChange={handleChange}
                                     />
@@ -283,6 +285,7 @@ function Form({onIncidentSubmit}) {
                                     <input
                                         type="text"
                                         name="address"
+                                        placeholder="e.g. 2120 Cambie St, Vancouver, BC V5Z 4N6"
                                         value={formData.address}
                                         onChange={handleChange}
                                         autoComplete="off"
@@ -361,6 +364,7 @@ function Form({onIncidentSubmit}) {
                                         rows="4"
                                         cols="50"
                                         name="comments"
+                                        placeholder="e.g. a man about 6 ft tall, in black trench coat, black hat is fighting a little girl."
                                         value={formData.comments}
                                         onChange={handleChange}
                                     />
