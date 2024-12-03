@@ -25,6 +25,7 @@ function MainPage() {
 
   const mapRef = useRef(null);
   const changeIncident = (key,index) => {
+ 
     setIncidentKey(key);
     setShowMarker(index);
     if (mapRef.current) {
@@ -48,7 +49,7 @@ function MainPage() {
     setIncidentKey(null);
     setShowMarker(false);
   }
-  // Test incident for map
+  
 
   return (
     <div className="homePage">

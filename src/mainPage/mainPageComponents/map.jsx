@@ -13,6 +13,7 @@ L.Icon.Default.mergeOptions({
 
 function Map({onMove,incidents,onMarkerClick,mapRef}) {
   const [zoomLevel, setZoomLevel] = useState(13);
+  const [clicked, setClicked] = useState(false);
   const maxZoom = 11.5;
     // hook to listen to map events
   function MapEventsHandler() {
@@ -24,6 +25,16 @@ function Map({onMove,incidents,onMarkerClick,mapRef}) {
       },
       moveend: () => {
         updateVisibleIncidents(map); // Update visible incidents on move
+      },
+      popupclose: (e) => {
+        // Access the marker that the popup was attached to
+        const marker = e.popup._source;
+        
+        // Reset the marker icon
+        if (marker) {
+          marker._icon.src = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
+          setClicked(false); // Reset clicked state
+        }
       },
     });
     // Function to update visible incidents based on map bounds
@@ -64,14 +75,20 @@ function Map({onMove,incidents,onMarkerClick,mapRef}) {
                 e.target._icon.src = "/images/map-pin-yellow.png";
               },
               mouseout: (e) => {
-                e.target.closePopup();
-                e.target._icon.src = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
+                if(!clicked){
+                  e.target.closePopup();
+                  e.target._icon.src = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
+                }
               },
               click: (e) => {
                 onMarkerClick(index,true)
-                console.log("clicked marker")
+                e.target.openPopup();
+                setClicked(true);
+                e.target._icon.src = "/images/map-pin-yellow.png";
+                
               }
             }}
+            
           >
             <Popup>
               <b>{incident.getAddress()} </b>
