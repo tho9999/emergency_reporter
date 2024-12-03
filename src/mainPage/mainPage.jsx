@@ -4,6 +4,7 @@ import List from './mainPageComponents/list';
 import Figure from './mainPageComponents/figure';
 import FormButton from './mainPageComponents/FormButton';
 import React, { useRef, useState } from 'react';
+import L, { marker } from 'leaflet';
 
 function MainPage() {
   const [incidents, setIncidents] = useState([]);
@@ -30,6 +31,20 @@ function MainPage() {
     setShowMarker(index);
     if (mapRef.current) {
       const map = mapRef.current;
+
+      const markers = [];
+      
+      // Loop through all layers on the map
+      map.eachLayer((layer) => {
+        // Check if the layer is a Marker
+        if (layer instanceof L.Marker) {
+          markers.push(layer);
+        }
+      });
+      console.log(markers);
+      console.log(key);
+      console.log(markers[key]);
+      markers[key]._icon.src = "/images/map-pin-yellow.png";
       map.flyTo(incidents[key].location, 16);
     }
   }
