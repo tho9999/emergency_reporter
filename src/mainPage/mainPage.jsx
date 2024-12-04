@@ -3,6 +3,7 @@ import Map from './mainPageComponents/map';
 import List from './mainPageComponents/list';
 import Figure from './mainPageComponents/figure';
 import FormButton from './mainPageComponents/FormButton';
+import InfoHeader from './mainPageComponents/infoheader';
 import React, { useRef, useState } from 'react';
 import L, { marker } from 'leaflet';
 
@@ -69,7 +70,7 @@ function MainPage() {
   return (
     <div className="homePage">
       <div className='header'>
-        <h1>Metro Vancouver Emergency Reporting and Monitoring System</h1>
+        <InfoHeader />
       </div>
       <div className='mapContainer'>
         <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents} mapRef={mapRef}/>
