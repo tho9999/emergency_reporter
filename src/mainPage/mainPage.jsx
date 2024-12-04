@@ -68,6 +68,9 @@ function MainPage() {
 
   return (
     <div className="homePage">
+      <div className='header'>
+        <h1>Metro Vancouver Emergency Reporting and Monitoring System</h1>
+      </div>
       <div className='mapContainer'>
         <Map onMove={changeVisibleIncidents} onMarkerClick={changeIncident} incidents={incidents} mapRef={mapRef}/>
       </div>

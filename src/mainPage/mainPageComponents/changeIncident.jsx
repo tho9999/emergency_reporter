@@ -323,8 +323,8 @@ function ChangeIncident({ incident, onCancel, onUpdate, onDelete }) {
                             <tr>
                                 <td colSpan="2">
                                     <button type="submit">Update</button>
-                                    <button type="button" onClick={onCancel}>Cancel</button>
-                                    <button type="button" onClick={handleDelete}>Delete</button>
+                                    <button type="cancel" onClick={onCancel}>Cancel</button>
+                                    <button type="delete" onClick={handleDelete}>Delete</button>
                                 </td>
                             </tr>
                         </tbody>

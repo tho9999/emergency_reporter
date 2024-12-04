@@ -38,7 +38,7 @@ function Figure({ incident, onUpdateIncident, onDeleteIncident }) {
         <figure>
             <h2>Incident Details</h2>
             {incident.getPicture() && <img src={pictureSource} alt="Incident" />}
-            <p><strong>Type: </strong>{incident.getEmergencyInfo()}</p>
+            <p><strong>Incident type: </strong>{incident.getEmergencyInfo()}</p>
             <p><strong>Location: </strong>{incident.getAddress()}</p>
             <p><strong>Reported by: </strong>{incident.getWitnessName()}  ({incident.getWitnessPhone()})</p>
             <p><strong>Time: </strong>{incident.getTime()} </p>
