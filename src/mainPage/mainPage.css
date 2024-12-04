@@ -71,6 +71,12 @@
     flex-direction: row; /* Maintain horizontal layout on small screens */
     padding: 10px; /* Reduce padding */
   }
+  .situations ul li img {
+    max-width: 50%; /* Reduce image size to 80% of container width */
+  }
+  .situations ul li{
+    font-size: 2vw;
+  }
 
   .logo {
     width: 8%; /* Adjust logo size */
@@ -93,7 +99,9 @@
   margin: 10px 0;
 }
 .situations ul li img {
+  display: flex;
   margin-bottom: 10px; 
+  height: auto;
 }
 
 /* Map container styling */
