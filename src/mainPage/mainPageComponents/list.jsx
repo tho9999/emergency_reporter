@@ -63,6 +63,9 @@ function List({ incidents, onMoreInfoClick}) {
             <th onClick={() => sortIncidents("status")}>
               Status{getSortIndicator("status")}
             </th>
+            <th>
+              See More Info
+            </th>
           </tr>
         </thead>
         <tbody>

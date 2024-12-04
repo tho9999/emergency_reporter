@@ -42,7 +42,7 @@ function PasswordPopup({onClose, onPasswordCorrect}) {
                     />
                     {errorMessage && <p className="error">{errorMessage}</p>}
                     <button type="submit">Submit</button>
-                    <button type="button" onClick={onClose}>Cancel</button>
+                    <button type="cancel" onClick={onClose}>Cancel</button>
                 </form>
             </div>
         </div>
