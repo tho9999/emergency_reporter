@@ -6,3 +6,5 @@ Steps:
 2. Run npm install in the command prompt
 3. In command prompt: npm run start
 
+![example photo 1](./public/images/emergencyReporter1.png)
+![example photo 2](./public/images/emergencyReporter2.png)
